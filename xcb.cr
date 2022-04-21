@@ -1,14 +1,14 @@
-@[Link(ldflags: "`command -v pkg-config > /dev/null && pkg-config --libs xcb 2> /dev/null|| printf %s '-lxcb'`")]
-lib XCB
+@[Link("xcb")]
+lib LibXCB
 	alias XcbAtom = LibC::UInt
 	alias XcbBool32 = LibC::UInt
 	alias XcbButton = UInt8
 	alias XcbColormap = LibC::UInt
-	alias XcbConnection = Void
-	alias XcbCursorContext = Void
+	alias XcbConnection = Void*
+	alias XcbCursorContext = Void*
 	alias XcbCursor = LibC::UInt
 	alias XcbDrawable = LibC::UInt
-	alias XcbExtension = Void
+	alias XcbExtension = Void*
 	alias XcbFont = LibC::UInt
 	alias XcbFontable = LibC::UInt
 	alias XcbGcontext = LibC::UInt
@@ -34,11 +34,11 @@ lib XCB
 	alias XcbRenderGlyphset = LibC::UInt
 	alias XcbRenderPictformat = LibC::UInt
 	alias XcbRenderPicture = LibC::UInt
-	alias XcbRenderUtilCompositeTextStream = Void
+	alias XcbRenderUtilCompositeTextStream = Void*
 	alias XcbShapeKind = UInt8
 	alias XcbShapeOp = UInt8
 	alias XcbShmSeg = LibC::UInt
-	alias XcbSpecialEvent = Void
+	alias XcbSpecialEvent = Void*
 	alias XcbTimestamp = LibC::UInt
 	alias XcbVisualid = LibC::UInt
 	alias XcbWindow = LibC::UInt
@@ -49,7 +49,7 @@ lib XCB
 	alias XcbXkbIdSpec = LibC::UShort
 	alias XcbXkbLedClassSpec = LibC::UShort
 	alias XcbXkbString8 = LibC::Char
-	alias XcbXrmDatabase = Void
+	alias XcbXrmDatabase = Void*
 	enum XcbButtonIndex
 		XcbButtonIndexAny = 0
 		XcbButtonIndex1   = 1
@@ -2807,7 +2807,7 @@ lib XCB
 	fun xcb_xkb_use_extension(c : XcbConnection, wanted_major : LibC::UShort, wanted_minor : LibC::UShort) : XcbXkbUseExtensionCookie
 	fun xcb_xkb_use_extension_reply(c : XcbConnection, cookie : XcbXkbUseExtensionCookie, e : XcbGenericError**) : XcbXkbUseExtensionReply*
 		fun xcb_xkb_use_extension_unchecked(c : XcbConnection, wanted_major : LibC::UShort, wanted_minor : LibC::UShort) : XcbXkbUseExtensionCookie
-	fun xcb_xrm_database_combine(source_db : XcbXrmDatabase, target_db : XcbXrmDatabase*, override : LibC::Bool)
+	fun xcb_xrm_database_combine(source_db : XcbXrmDatabase, target_db : XcbXrmDatabase*, override : Bool)
 	fun xcb_xrm_database_free(database : XcbXrmDatabase)
 	fun xcb_xrm_database_from_default(conn : XcbConnection) : XcbXrmDatabase
 	fun xcb_xrm_database_from_file(filename : LibC::Char*) : XcbXrmDatabase
@@ -2816,7 +2816,7 @@ lib XCB
 	fun xcb_xrm_database_put_resource(database : XcbXrmDatabase*, resource : LibC::Char*, value : LibC::Char*)
 	fun xcb_xrm_database_put_resource_line(database : XcbXrmDatabase*, line : LibC::Char*)
 	fun xcb_xrm_database_to_string(database : XcbXrmDatabase) : LibC::Char*
-		fun xcb_xrm_resource_get_bool(database : XcbXrmDatabase, res_name : LibC::Char*, res_class : LibC::Char*, out : LibC::Bool*) : LibC::Int
+		fun xcb_xrm_resource_get_bool(database : XcbXrmDatabase, res_name : LibC::Char*, res_class : LibC::Char*, out : Bool*) : LibC::Int
 	fun xcb_xrm_resource_get_long(database : XcbXrmDatabase, res_name : LibC::Char*, res_class : LibC::Char*, out : LibC::Long*) : LibC::Int
 	fun xcb_xrm_resource_get_string(database : XcbXrmDatabase, res_name : LibC::Char*, res_class : LibC::Char*, out : LibC::Char**) : LibC::Int
 
@@ -9855,7 +9855,7 @@ lib XCB
 		key_event_follows : UInt8
 		mods : UInt8
 		group : UInt8
-		message : XcbXkbString8T[8]
+		message : XcbXkbString8[8]
 		pad0 : UInt8[10]
 	end
 
@@ -10642,7 +10642,7 @@ lib XCB
 	end
 
 	struct XcbXkbKey
-		name : XcbXkbString8T[4]
+		name : XcbXkbString8[4]
 		gap : LibC::Short
 		shape_ndx : UInt8
 		color_ndx : UInt8
@@ -10900,8 +10900,8 @@ lib XCB
 	end
 
 	struct XcbXkbOverlayKey
-		over : XcbXkbString8T[4]
-		under : XcbXkbString8T[4]
+		over : XcbXkbString8[4]
+		under : XcbXkbString8[4]
 	end
 
 	struct XcbXkbOverlayRowIterator
@@ -11686,13 +11686,7 @@ lib XCB
 		wanted_minor : LibC::UShort
 	end
 
-	type XcbConnection = Void*
-		type XcbCursorContext = Void*
-		type XcbExtension = Void*
 		type XcbKeySymbols = Void*
-		type XcbRenderUtilCompositeTextStream = Void*
-		type XcbSpecialEvent = Void*
-		type XcbXrmDatabase = Void*
 
 		union XcbClientMessageData
 			data8 : UInt8[20]

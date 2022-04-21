@@ -1,0 +1,9 @@
+name: bindings
+version: 0.1.0
+
+authors:
+  - Hampus Rosencrantz <hamros@tuta.io>
+
+targets:
+  bindings:
+    main: main.cr
